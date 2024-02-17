@@ -6,17 +6,16 @@ import './App.css';
 function App() {
   const [formData, setFormData] = useState({
     amount: 0,
-    nameDest: 'C2044282225',
-    type: '0', // Change the type to a string to match the dropdown values
+    type: 0, 
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Ensure that numeric inputs are parsed as numbers
+
     const updatedValue = name.includes('amount') ? parseFloat(value) : value;
 
-    // Update formData directly without referencing previous state
+    
     setFormData({
       ...formData,
       [name]: updatedValue,
@@ -28,21 +27,27 @@ function App() {
 
     try {
       const response = await axios.post('http://localhost:4000/send-post-request', formData);
-
       if (response.status === 200) {
         console.log('Response from express server:', response.data);
 
-        if (response.data.prediction === 1) {
+        if (response.data.prediction[0] === 1) {
           Swal.fire({
             icon: 'warning',
             title: 'Fraud Transaction',
             text: 'This is a fraud transaction!',
           });
-        } else {
+        } else if (response.data.prediction[0] === 0){
           Swal.fire({
             icon: 'success',
             title: 'Genuine Transaction',
             text: 'This is a genuine transaction.',
+          });
+        } else {
+          console.error('Invalid prediction value:', response.data.prediction);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: `Invalid prediction value: ${response.data.prediction}`,
           });
         }
       } else {

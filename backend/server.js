@@ -12,20 +12,7 @@ app.post('/send-post-request', async (req, res) => {
   try {
     let formData = req.body;
 
-    let amount = parseInt(formData.amount);
-
-    let oldbalanceOrg =  1976666.45;
-    let oldbalanceDest =  0;
-    
-    let newbalanceOrig =  0;
-    let newbalanceDest =  1976666.45;
-
-    const additionalData = {
-      oldbalanceOrg: oldbalanceOrg,
-      newbalanceOrig: newbalanceOrig,
-      oldbalanceDest: oldbalanceDest,
-      newbalanceDest: newbalanceDest,
-    };
+    const additionalData = require('./additionalData.json');
 
     formData = { ...formData, ...additionalData };
 
