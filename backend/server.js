@@ -14,11 +14,11 @@ app.post('/send-post-request', async (req, res) => {
 
     let amount = parseInt(formData.amount);
 
-    let oldbalanceOrg =  0;
+    let oldbalanceOrg =  1976666.45;
     let oldbalanceDest =  0;
     
-    let newbalanceOrig =  oldbalanceOrg - amount;
-    let newbalanceDest =  0;
+    let newbalanceOrig =  0;
+    let newbalanceDest =  1976666.45;
 
     const additionalData = {
       oldbalanceOrg: oldbalanceOrg,

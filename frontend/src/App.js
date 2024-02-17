@@ -6,7 +6,7 @@ import './App.css';
 function App() {
   const [formData, setFormData] = useState({
     amount: 0,
-    nameDest: 'M2044282225',
+    nameDest: 'C2044282225',
     type: '0', // Change the type to a string to match the dropdown values
   });
 
