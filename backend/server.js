@@ -14,11 +14,11 @@ app.post('/send-post-request', async (req, res) => {
 
     let amount = parseInt(formData.amount);
 
-    let oldbalanceOrg =  15;
-    let oldbalanceDest =  20;
+    let oldbalanceOrg =  0;
+    let oldbalanceDest =  0;
     
     let newbalanceOrig =  oldbalanceOrg - amount;
-    let newbalanceDest =  oldbalanceDest + amount;
+    let newbalanceDest =  0;
 
     const additionalData = {
       oldbalanceOrg: oldbalanceOrg,
@@ -27,19 +27,19 @@ app.post('/send-post-request', async (req, res) => {
       newbalanceDest: newbalanceDest,
     };
 
-    console.log('Additional Data:', additionalData);
-
     formData = { ...formData, ...additionalData };
-
-    console.log('Received POST request data from React:', formData);
 
     const apiUrl = 'http://127.0.0.1:8000/predict/';
 
     const response = await axios.post(apiUrl, formData);
 
-    console.log('Response from the Python endpoint:', response.data);
+    if (response.status !== 200) {
+      throw new Error('Failed to send POST request to the prediction server');
+    }
+    else {
+      res.status(200).json(response.data);
+    }
 
-    res.status(200).json(response.data);
   } catch (error) {
     console.error('Error handling POST request:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
